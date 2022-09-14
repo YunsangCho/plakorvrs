@@ -14,5 +14,9 @@
   "license": "ISC",
   "devDependencies": {
     "typescript": "^4.8.2"
+  },
+  "dependencies": {
+    "dotenv": "^16.0.2",
+    "mongodb": "^4.9.1"
   }
 }
