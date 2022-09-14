@@ -12,7 +12,7 @@ const PORT = process.env.PORT || 3000;
 app.use(bodyParser.urlencoded({ extended: false }))
  
 // parse application/json
-app.use(bodyParser.json());
+app.use(bodyParser.json()); 
 
 connectToDatabase()
   .then(() => {
