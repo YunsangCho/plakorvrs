@@ -17,11 +17,11 @@ app.use(bodyParser.json());
 connectToDatabase()
   .then(() => {
     app.listen(PORT, function(){
-      console.log('WebServer listening on ' + PORT);
+      console.log('WebServer listening on :  ' + PORT);
     });
   })
   .catch((error: Error) => {
-    console.error("Database connection failed", error);
+    console.error("Database connection failed~", error);
     process.exit();
   });
 
