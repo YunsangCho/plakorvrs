@@ -1,0 +1,38 @@
+hr{
+    margin-bottom:0px;
+}
+
+.table > :not(:first-child) {
+    border-top: 1px solid currentColor;
+}
+
+thead{
+    border: none;
+}
+
+tbody{
+    border: none;
+}
+
+tr{
+    border-right: none;
+    border-left: none;
+}
+
+th{
+    border-top: none;
+    border-bottom: 1px;
+    border-right: none;
+    border-left: none;
+}
+
+td{
+    border-right: none;
+    border-left: none;
+    border-top: 1px;
+    font-size: 0.9rem;
+}
+
+tbody > tr > td {
+    cursor : pointer;
+}

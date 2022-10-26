@@ -16,8 +16,7 @@ const Footer = () => {
               <Nav.Link as={Link} to="/reservation" onClick={() => setExpanded(false)}>방문신청</Nav.Link>
               <Nav.Link as={Link} to="/search" onClick={() => setExpanded(false)}>신청현황</Nav.Link>
               <Nav.Link href="http://172.16.4.2:8080/vrsAccessList" onClick={() => setExpanded(false)}>신청승인</Nav.Link>
-              <Nav.Link as={Link} to="#" onClick={() => setExpanded(false)}>공지사항</Nav.Link>
-              <Nav.Link as={Link} to="#" onClick={() => setExpanded(false)}>FAQ</Nav.Link>
+              <Nav.Link as={Link} to="/notice" onClick={() => setExpanded(false)}>공지사항</Nav.Link>
             </Nav>
           </Navbar.Collapse>
         </Container>

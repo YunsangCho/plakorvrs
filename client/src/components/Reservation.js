@@ -5,6 +5,7 @@ import DatePicker, { registerLocale, setDefaultLocale } from "react-datepicker";
 import { ko } from "date-fns/esm/locale";
 import {setMinutes, setHours} from "date-fns";
 import { validPhoneNo, leftPad, toStringByFormatting } from '../utils/commonFuction';
+import EmpSearch from './EmpSearch';
 import Footer from './common/Footer';
 
 registerLocale('ko', ko);
@@ -20,13 +21,11 @@ const Reservation = (props) => {
     const [visitPurpose, setVisitPurpose] = useState();
     
     //방문자 정보
-    const [meetingSpot, setMeetingSpot] = useState();
     const [visitDate, setVisitDate] = useState(new Date());         
     const [startTime, setStartTime] = useState(null);
     const [endTime, setEndTime] = useState(null);
     const [visitorCnt, setVisitorCnt] = useState(0);
     const [visitorTeam, setVisitorTeam] = useState();
-    const [visitorPosition, setVisitorPosition] = useState();
     const [visitorName, setVisitorName] = useState();
     const [visitorTel1, setVisitorTel1] = useState();
     const [visitorTel2, setVisitorTel2] = useState();
@@ -37,8 +36,8 @@ const Reservation = (props) => {
     //담당자 정보
     const [empNo, setEmpNo] = useState();
     const [empName, setEmpName] = useState();
-    const [mngTel1, setMngTel1] = useState();
-    const [mngTel2, setMngTel2] = useState();
+    // const [mngTel1, setMngTel1] = useState();
+    // const [mngTel2, setMngTel2] = useState();
   
     const [startTimeObj, setStartTimeObj] = useState();
     useEffect(()=>{
@@ -148,11 +147,6 @@ const Reservation = (props) => {
                     <small className="form-text text-muted"></small>
                   </div>
                   <div className="form-group">
-                    <label htmlFor="inputName">방문장소</label>
-                    <input type="text" className="form-control" placeholder="입력해주세요" required autoComplete="off" value={meetingSpot} onChange={(e)=>{setMeetingSpot(e.target.value)}}/>
-                    <small className="form-text text-muted">ex) 회의실</small>
-                  </div>
-                  <div className="form-group">
                     <label htmlFor="inputDate">방문일시<span className="ess">*</span></label>
                     <div className="d-flex flex-row justify-content-between align-items-center">
                       <DatePicker
@@ -238,11 +232,6 @@ const Reservation = (props) => {
                     <small className="form-text text-muted"></small>
                   </div>
                   <div className="form-group">
-                    <label htmlFor="inputName">직책</label>
-                    <input type="text" className="form-control" placeholder="입력해주세요" required autoComplete="off"value={visitorPosition} onChange={(e)=>{setVisitorPosition(e.target.value)}}/>
-                    <small className="form-text text-muted"></small>
-                  </div>
-                  <div className="form-group">
                     <label htmlFor="inputName">성명<span className="ess">*</span></label>
                     <input type="text" className="form-control" placeholder="입력해주세요" required autoComplete="off" value={visitorName} onChange={(e)=>{setVisitorName(e.target.value)}}/>
                     <small className="form-text text-muted"></small>
@@ -287,26 +276,14 @@ const Reservation = (props) => {
                   <p className="card-text">담당자 정보</p>
                   <hr/>
                   <div className="form-group">
-                    <label htmlFor="inputName">담당자 사번<span className="ess">*</span></label>
-                    <input type="text" className="form-control" placeholder="입력해주세요" required value={empNo} onChange={(e)=>{setEmpNo(e.target.value)}}/>
-                    <small className="form-text text-muted"></small>
-                  </div>
-                  <div className="form-group">
-                    <label htmlFor="inputName">담당자명<span className="ess">*</span></label>
-                    <input type="text" className="form-control" placeholder="입력해주세요" required value={empName} onChange={(e)=>{setEmpName(e.target.value)}}/>
-                    <small className="form-text text-muted"></small>
-                  </div>
-                  <div className="form-group">
-                    <label htmlFor="inputName">담당자 연락처<span className="ess">*</span></label>
+                    <label htmlFor="inputDate">담당자명<span className="ess">*</span></label>
                     <div className="d-flex flex-row justify-content-between align-items-center">
-                      <input type="text" className="form-control" readOnly defaultValue="010"/>
-                      &nbsp;-&nbsp;
-                      <input type="text" className="form-control" maxlength="4" value={mngTel1} onChange={(e) => validPhoneNo(e, setMngTel1)}/>
-                      &nbsp;-&nbsp;
-                      <input type="text" className="form-control" maxlength="4" value={mngTel2} onChange={(e) => validPhoneNo(e, setMngTel2)}/>
+                      <input type="text" className="form-control" readOnly value={empName} onChange={(e)=>{setEmpName(e.target.value)}}/>
+                      <EmpSearch setEmpNo={setEmpNo} setEmpName={setEmpName} />
                     </div>
                   </div>
                   <hr/>
+
                   <Button variant="dark" size="lg" style={{width: "100%"}}
                       onClick={(e)=>{
                         if(!tncCheck){
@@ -356,29 +333,15 @@ const Reservation = (props) => {
                             return;
                           }
                         }
-                        if(!empNo){
-                          alert("담당자 사번은 필수항목입니다.");
-                          return;
-                        }
                         if(!empName){
                           alert("담당자명은 필수항목입니다.");
                           return;
-                        }
-                        if(!mngTel1 || !mngTel2){
-                          alert("담당자 연락처는 필수항목입니다.");
-                          return;
-                        }else if(mngTel1 && mngTel2){
-                          if(mngTel1.length < 4 || mngTel2.length < 4){
-                            alert("담당자연락처가 올바르지 않습니다.");
-                            return;
-                          }
                         }
   
                         var visitDateStr = toStringByFormatting(visitDate);
                         var startTimeStr = startTimeObj.sTime;
                         var endTimeStr = endTimeObj.eTime;
                         var visitorTelStr = '010-' + visitorTel1 + "-" + visitorTel2;
-                        var mngTelStr = '010-' + mngTel1 + "-" + mngTel2;
                         var registerState = "대기";
                         const today = new Date();
                         
@@ -391,21 +354,18 @@ const Reservation = (props) => {
                           var param ={
                             visitFactory,      //방문 사업장  
                             visitPurpose,      //방문목적*
-                            meetingSpot,       //방문장소
                             visitDateStr,      //방문일시*
                             startTimeStr,      //시작시간  
                             endTimeStr,        //종료시간
                             visitorCnt,        //인원*
                             visitorTeam,       //소속*
-                            visitorPosition,   //직책
                             visitorName,       //성명*
                             visitorTelStr,     //대표자 연락처*
                             hasCar,            //차량유무
                             carNo,             //차량번호 == "유" ? 필수 : Ⅹ
                             remarks,           //기타사항
                             empNo,             //담당자 사번*
-                            empName,           //담당자 성함*
-                            mngTelStr,         //담당자 연락처*
+                            empName,           //담당자 성함* 
                             registerDate,      //접수시간
                             registerState      //승인상태 
                           }

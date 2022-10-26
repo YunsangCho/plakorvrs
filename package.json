@@ -7,8 +7,10 @@
     "node" : "16.15.0"
   },
   "scripts": {
-    "client-build": "cd client && npm ci && npm run build && cd ../",
     "client-build-test": "cd client && npm run build && mv ./build ../server/dist/",
+    "server-build-test": "cd server && npm run build",
+    "local-test-run" : "npm run client-build-test && npm run server-build-test && npm run start",
+    "client-build": "cd client && npm ci && npm run build && cd ../",
     "server-build": "cd server && npm ci --dev && npm run build && cd ../",
     "heroku-prebuild": "npm run client-build && npm run server-build && mv ./client/build ./server/dist/",
     "start": "cd server && npm run start",

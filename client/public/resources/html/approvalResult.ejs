@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+</head>
+<style>
+
+    *{
+      margin:0;
+      padding:0;
+      box-sizing: border-box;
+    }
+    p{
+      margin-top:10px;
+    }
+    .container{
+      width:100%;
+    }
+    .modal-btn-box{
+      width:100%;
+      text-align:center;
+    }
+    .modal-btn-box button{
+      display:inline-block;
+      width:150px;
+      height:50px;
+      background-color:#ffffff;
+      border:1px solid #e1e1e1;
+      cursor:pointer;
+      padding-top:8px;
+    }
+    .popup-wrap{
+      background-color:rgba(0,0,0,.3);
+      justify-content:center;
+      align-items:center;
+      position:fixed;
+      top:0;
+      left:0;
+      right:0;
+      bottom:0;
+      display:none;
+      padding:15px;
+    }
+    .popup{
+      width:100%;
+      /* height: 100%; */
+      max-width:100vw;
+      max-height:100vh;
+      background-color:#ffffff;
+      border-radius:10px;
+      overflow:hidden;
+      background-color:#3a4052;
+      box-shadow: 5px 10px 10px 1px rgba(0,0,0,.3);
+    }
+    .popup-head{
+      width:100%;
+      height:50px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+    .head-title {
+        font-size: 38px;
+        font-weight: 700;
+        color: white;
+        letter-spacing: -3px;
+        text-align: center;
+    }
+    .popup-body{
+      width:100%;
+      background-color:#ffffff;
+    }
+    .body-content{
+      width:100%;
+      padding:30px;
+    }
+    .body-titlebox{
+      text-align:left;
+      width:100%;
+      height:40px;
+      margin-bottom:10px;
+    }
+    .body-contentbox{
+      word-break:break-word;
+      overflow-y:auto;
+      min-height:100px;
+      max-height:200px;
+    }
+    .popup-foot{
+      width:100%;
+      height:50px;
+    }
+    .pop-btn{
+      display:inline-flex;
+      width:100%;
+      height:100%;
+      float:left;
+      justify-content:center;
+      align-items:center;
+      color:#ffffff;
+      cursor:pointer;
+    }
+    .pop-btn.confirm{
+      border-right:1px solid #f8f9fa;
+    }
+    
+</style>
+
+<body>
+
+    <div class="container">
+      <div class="modal-btn-box">
+      </div>
+      
+      <div class="popup-wrap" id="popup">
+        <div class="popup">
+          <div class="popup-head">
+              <span class="head-title"><%=status %></span>
+          </div>
+          <div class="popup-body">
+            <div class="body-content">
+              <div class="body-titlebox">
+                <h3><%=msg %></h1>
+              </div>
+              <div class="body-contentbox">
+                
+              </div>
+            </div>
+          </div>
+          <div class="popup-foot">
+            <span class="pop-btn close" id="close">창 닫기</span>
+          </div>
+        </div>
+    </div>
+    </div>
+
+</body>
+</html>
+
+<script>
+    
+    $(function(){
+        $("#popup").css('display','flex').hide().fadeIn();      
+        $("#close").click(function(){
+          location.href = "kakaotalk://inappbrowser/close";
+        });
+    });
+    
+</script>

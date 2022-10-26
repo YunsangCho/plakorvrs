@@ -21,7 +21,7 @@ const SearchResult = (props) => {
       <div className="row gx-5 justify-content-center">
           <div className="col-lg-10 col-xl-10">
               <div className="form-group">
-              <table className="table">
+              <table className="table resvSearchTbl">
                 <thead>
                   <tr>
                     <th>신청자</th>

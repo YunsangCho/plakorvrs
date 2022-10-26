@@ -9,9 +9,15 @@
     "start": "cd dist && node app.js"
   },
   "dependencies": {
+    "@js-temporal/polyfill": "^0.4.2",
+    "@types/mssql": "^8.1.1",
+    "axios": "^0.27.2",
     "dotenv": "^16.0.2",
+    "ejs": "^3.1.8",
+    "exceljs": "^4.3.0",
     "express": "^4.18.1",
-    "mongodb": "^4.9.1"
+    "mongodb": "^4.9.1",
+    "mssql": "^9.0.1"
   },
   "devDependencies": {
     "@types/express": "^4.17.13",
