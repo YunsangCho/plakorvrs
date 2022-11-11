@@ -3,13 +3,15 @@ import { Link } from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
+import Offcanvas from 'react-bootstrap/Offcanvas';
 
-const Footer = () => {
+const MyNav = () => {
     const [expanded, setExpanded] = useState(false);
     return (
-      <Navbar bg="light" expand="lg" style={{zIndex:"999", width: "100vw", position: "fixed"}} onSelect expanded={expanded}>
+      <Navbar collapseOnSelect bg="light" expand="lg" style={{zIndex:"999", width: "100vw", position: "fixed"}} expanded={expanded}> 
         <Container>
-          <Navbar.Brand as={Link} to="/"><a className="navbar-brand" href="/"><img src={process.env.PUBLIC_URL + '/resources/images/logo.png'} alt="" style={{width : "150px",height : "100%"}}/><b> 방문</b></a></Navbar.Brand>
+          {/* <Navbar.Brand as={Link} to="/" bsPrefix=""><a className="navbar-brand" href="/"><img className="logo" alt="" style={{width : "150px",height : "100%"}}/><b> 방문</b></a></Navbar.Brand> */}
+          <Navbar.Brand as={Link} to="/" bsPrefix="logo"></Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" onClick={() => setExpanded(!expanded)}/>
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto" style={{fontWeight:"bolder"}}>
@@ -24,4 +26,4 @@ const Footer = () => {
     );
 }
 
-export default Footer;
+export default MyNav;

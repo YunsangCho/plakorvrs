@@ -32,13 +32,26 @@ const Reservation = (props) => {
     const [hasCar, setHasCar] = useState('유');
     const [carNo, setCarNo] = useState();
     const [remarks, setRemarks] = useState();
-  
+
+    //차량번호 검증
+    const carNumCheck = (str) => {
+      if (/^\d{2}[가-힣]\d{4}/.exec(str) !== null && str.length === 7) {
+        return true;
+      }
+      if (/^\d{3}[가-힣]\d{4}/.exec(str) !== null && str.length === 8) {
+        return true;
+      }
+      return false
+    }
+      
+
     //담당자 정보
     const [empNo, setEmpNo] = useState();
-    const [empName, setEmpName] = useState();
-    // const [mngTel1, setMngTel1] = useState();
-    // const [mngTel2, setMngTel2] = useState();
-  
+    const [empDept, setEmpDept] = useState();  
+    const [empPosition, setEmpPosition] = useState();  
+    const [empName, setEmpName] = useState();  
+    const [empTel, setEmpTel] = useState();
+    
     const [startTimeObj, setStartTimeObj] = useState();
     useEffect(()=>{
      
@@ -143,7 +156,7 @@ const Reservation = (props) => {
                   <hr/>
                   <div className="form-group required">
                     <label htmlFor="inputName">방문목적<span className="ess">*</span></label>
-                    <input type="text" className="form-control" placeholder="입력해주세요" required autoComplete="off" value={visitPurpose} onChange={(e)=>{setVisitPurpose(e.target.value)}}/>
+                    <input type="text" className="form-control" maxLength="20" placeholder="입력해주세요" required autoComplete="off" value={visitPurpose} onChange={(e)=>{setVisitPurpose(e.target.value)}}/>
                     <small className="form-text text-muted"></small>
                   </div>
                   <div className="form-group">
@@ -228,12 +241,12 @@ const Reservation = (props) => {
                   </div>
                   <div className="form-group">
                     <label htmlFor="inputName">소속<span className="ess">*</span></label>
-                    <input type="text" className="form-control" placeholder="입력해주세요" required autoComplete="off" value={visitorTeam} onChange={(e)=>{setVisitorTeam(e.target.value)}}/>
+                    <input type="text" className="form-control" maxLength="20" placeholder="입력해주세요" required autoComplete="off" value={visitorTeam} onChange={(e)=>{setVisitorTeam(e.target.value)}}/>
                     <small className="form-text text-muted"></small>
                   </div>
                   <div className="form-group">
                     <label htmlFor="inputName">성명<span className="ess">*</span></label>
-                    <input type="text" className="form-control" placeholder="입력해주세요" required autoComplete="off" value={visitorName} onChange={(e)=>{setVisitorName(e.target.value)}}/>
+                    <input type="text" className="form-control" maxLength="20" placeholder="입력해주세요" required autoComplete="off" value={visitorName} onChange={(e)=>{setVisitorName(e.target.value)}}/>
                     <small className="form-text text-muted"></small>
                   </div>
                   <div className="form-group">
@@ -271,15 +284,15 @@ const Reservation = (props) => {
                   }
                   <div className="form-group">
                     <label htmlFor="textAreaRemark">기타사항</label>
-                    <textarea className="form-control" rows="2" placeholder="비고" onChange={(e)=>{setRemarks(e.target.value)}}></textarea>
+                    <textarea className="form-control" rows="2" placeholder="비고" maxLength="20" onChange={(e)=>{setRemarks(e.target.value)}}></textarea>
                   </div>
                   <p className="card-text">담당자 정보</p>
                   <hr/>
                   <div className="form-group">
                     <label htmlFor="inputDate">담당자명<span className="ess">*</span></label>
                     <div className="d-flex flex-row justify-content-between align-items-center">
-                      <input type="text" className="form-control" readOnly value={empName} onChange={(e)=>{setEmpName(e.target.value)}}/>
-                      <EmpSearch setEmpNo={setEmpNo} setEmpName={setEmpName} />
+                      <input type="text" className="form-control" maxLength="20" readOnly value={empName} onChange={(e)=>{setEmpName(e.target.value)}}/>
+                      <EmpSearch setEmpNo={setEmpNo} setEmpDept={setEmpDept} setEmpPosition={setEmpPosition} setEmpName={setEmpName} setEmpTel={setEmpTel}/>
                     </div>
                   </div>
                   <hr/>
@@ -333,6 +346,12 @@ const Reservation = (props) => {
                             return;
                           }
                         }
+                        if(hasCar == "유"){
+                          if(!carNumCheck(carNo)){
+                            alert("차량번호 형식이 올바르지 않습니다.");
+                            return;
+                          }
+                        }
                         if(!empName){
                           alert("담당자명은 필수항목입니다.");
                           return;
@@ -365,22 +384,27 @@ const Reservation = (props) => {
                             carNo,             //차량번호 == "유" ? 필수 : Ⅹ
                             remarks,           //기타사항
                             empNo,             //담당자 사번*
+                            empDept,           //담당자 부서*
+                            empPosition,       //담당자 직위*
                             empName,           //담당자 성함* 
+                            empTel,            //담당자 연락처*
                             registerDate,      //접수시간
                             registerState      //승인상태 
                           }
                           return param;
                         }
-                        
-                        //파라미터 출력
-                        console.log(setparam());
   
                         //server req
                         axios.post("/register", setparam())
                         .then((res)=>{
-                          console.log(res);
-                          document.location.href = '/'
-                          alert("접수되었습니다.");
+                          if(res.data.OUT_FLAG === "SUCCESS"){
+                            alert("접수되었습니다.");
+                            document.location.href = '/'
+                          }else if(res.data.OUT_FLAG === "visitor msg FAIL"){
+                            alert("error-vmsg - 잠시후 다시 시도해 주세요.");
+                          }else if(res.data.OUT_FLAG === "manager msg FAIL"){
+                            alert("error-mmsg - 잠시후 다시 시도해 주세요.");
+                          }
                         })
                         .catch((error)=>{
                           console.log(error);

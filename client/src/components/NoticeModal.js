@@ -13,7 +13,6 @@ const NoticeModal = (props) => {
 
     useEffect(() => {
         setShow(props.show);
-        console.log(props.selectedNotice);
     },);
 
     return (

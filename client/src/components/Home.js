@@ -6,9 +6,8 @@ const Home = () => {
     return(
       <>
         <section className="showcase">
-          <div className="video-container">
-              {/* <video src={process.env.PUBLIC_URL + '/resources/video/background.mp4'} poster={process.env.PUBLIC_URL + '/resources/images/placeholder.png'} autoPlay muted loop></video> */}
-              {/* <img src="/resources/images/background.png"/> */}
+          <div className="home-container">
+
           </div>
           <div className="content">
               <h2> PLAKOR 방문예약에 오신 것을 환영합니다.</h2>

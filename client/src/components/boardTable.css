@@ -17,6 +17,7 @@ tbody{
 tr{
     border-right: none;
     border-left: none;
+    border-bottom: 1px solid;
 }
 
 th{
@@ -36,3 +37,4 @@ td{
 tbody > tr > td {
     cursor : pointer;
 }
+

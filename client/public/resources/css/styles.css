@@ -11376,6 +11376,14 @@ h1 {
     margin-bottom: 15px;
 }
 
+.logo{
+  content: url('/resources/images/plakor_logo.png');
+  background-size: cover;
+  width : 210px;
+  height : 100%;
+  margin-right: 30px;
+}
+
 .showcase {
     height: 100vh;
     display: flex;
@@ -11386,18 +11394,18 @@ h1 {
     padding: 0 20px;
 }
 
-.video-container {
+.home-container {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     overflow: hidden;
-    background: var(--primary-color) url('../images/background.png') no-repeat center
+    background: var(--primary-color) url('../images/background.jpg') no-repeat center
         center/cover;
 }
 
-.video-container video {
+.home-container video {
     min-width: 100%;
     min-height: 100%;
   position: absolute;
@@ -11407,7 +11415,7 @@ h1 {
     object-fit: cover;
 }
 
-.video-container:after {
+.home-container:after {
     content: '';
     z-index: 1;
     height: 100%;
@@ -11585,15 +11593,25 @@ only screen and (max-device-width: 760px),
   /*
 	Label the data
 	*/
-	.resvSearchTbl td:nth-of-type(1):before { content: "신청자"; font-weight: bold;}
-	.resvSearchTbl td:nth-of-type(2):before { content: "담당자"; font-weight: bold;}
-	.resvSearchTbl td:nth-of-type(3):before { content: "담당자연락처"; font-weight: bold;}
-	.resvSearchTbl td:nth-of-type(4):before { content: "방문시간"; font-weight: bold;}
-	.resvSearchTbl td:nth-of-type(5):before { content: "신청일"; font-weight: bold;}
-	.resvSearchTbl td:nth-of-type(6):before { content: "승인상태"; font-weight: bold;}
-	.resvSearchTbl td:nth-of-type(7):before { content: "승인일"; font-weight: bold;}
 
-  .empSearchTbl td:nth-of-type(1):before { content: "부서"; font-weight: bold;}
-	.empSearchTbl td:nth-of-type(2):before { content: "성함"; font-weight: bold;}
-	.empSearchTbl td:nth-of-type(3):before { content: "연락처"; font-weight: bold;}
+  .resvSearchTbl thead {display: none;}
+	.resvSearchTbl td:nth-of-type(1):before { content: "신청자 : "; font-weight: bold;}
+	.resvSearchTbl td:nth-of-type(2):before { content: "담당자 : "; font-weight: bold;}
+	.resvSearchTbl td:nth-of-type(3):before { content: "담당자연락처 : "; font-weight: bold;}
+	.resvSearchTbl td:nth-of-type(4):before { content: "방문시간 : "; font-weight: bold;}
+	.resvSearchTbl td:nth-of-type(5):before { content: "신청일 : "; font-weight: bold;}
+	.resvSearchTbl td:nth-of-type(6):before { content: "승인상태 : "; font-weight: bold;}
+	.resvSearchTbl td:nth-of-type(7):before { content: "승인일 : "; font-weight: bold;}
+  
+  .empSearchTbl thead {display: none;}
+  .empSearchTbl td:nth-of-type(1):before { content: "부서 : "; font-weight: bold;}
+	.empSearchTbl td:nth-of-type(2):before { content: "성함 : "; font-weight: bold;}
+	.empSearchTbl td:nth-of-type(3):before { content: "연락처 : "; font-weight: bold;}
+
+  .noticeTbl thead {display: none;}
+  .noticeTbl td:nth-of-type(1) { display: none;}
+  .noticeTbl td:nth-of-type(2) { font-weight: bold; display: block}
+  .noticeTbl td:nth-of-type(3) { display: inline; border:none;}
+  .noticeTbl td:nth-of-type(4) { display: inline; border:none;}
+  .noticeTbl td:nth-of-type(5) { display: inline; border:none;}
 }

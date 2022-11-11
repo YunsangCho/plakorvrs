@@ -5,7 +5,7 @@ import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import Table from 'react-bootstrap/Table';
 import { AiOutlineNotification } from 'react-icons/ai';
-import Editor from './Editor';
+// import Editor from './Editor';
 import NoticeModal from './NoticeModal';
 import "./boardTable.css";
 
@@ -42,7 +42,7 @@ const Notice = (props) => {
                 <div className="row gx-5 justify-content-center">
                     <div className="col-lg-12 col-xl-10 responsive">
                         <hr/>
-                        <table className="table hover striped">
+                        <table className="noticeTbl table hover striped">
                             <thead>
                                 <tr>
                                     <th>번호</th>
@@ -78,7 +78,7 @@ const Notice = (props) => {
                                 />
                             </tbody>
                         </table>
-                        <Editor trigger={setTrigger}/>
+                        {/* <Editor trigger={setTrigger}/> */}
                     </div>
                     <div className="text-center">
                         <ul className="pagination">

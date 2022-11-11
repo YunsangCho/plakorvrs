@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+</head>
+<style>
+
+    *{
+      margin:0;
+      padding:0;
+      box-sizing: border-box;
+    }
+    p{
+      margin-top:10px;
+    }
+    .container{
+      width:100%;
+    }
+    .modal-btn-box{
+      width:100%;
+      text-align:center;
+    }
+    .modal-btn-box button{
+      display:inline-block;
+      width:150px;
+      height:50px;
+      background-color:#ffffff;
+      border:1px solid #e1e1e1;
+      cursor:pointer;
+      padding-top:8px;
+    }
+    .popup-wrap{
+      background-color:rgba(0,0,0,.3);
+      justify-content:center;
+      align-items:center;
+      position:fixed;
+      top:0;
+      left:0;
+      right:0;
+      bottom:0;
+      display:none;
+      padding:15px;
+    }
+    .popup{
+      width:100%;
+      /* height: 100%; */
+      max-width:100vw;
+      max-height:100vh;
+      background-color:#ffffff;
+      border-radius:10px;
+      overflow:hidden;
+      background-color:#3a4052;
+      box-shadow: 5px 10px 10px 1px rgba(0,0,0,.3);
+    }
+    .popup-head{
+      width:100%;
+      height:50px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+    .head-title {
+        font-size: 38px;
+        font-weight: 700;
+        color: white;
+        letter-spacing: -3px;
+        text-align: center;
+    }
+    .popup-body{
+      width:100%;
+      background-color:#ffffff;
+    }
+    .body-content{
+      width:100%;
+      padding:30px;
+    }
+    .body-titlebox{
+      text-align:left;
+      width:100%;
+      height:40px;
+      margin-bottom:10px;
+    }
+    .body-contentbox{
+      word-break:break-word;
+      overflow-y:auto;
+      min-height:100px;
+      max-height:200px;
+    }
+    .popup-foot{
+      width:100%;
+      height:50px;
+    }
+    .pop-btn{
+      display:inline-flex;
+      width:100%;
+      height:100%;
+      float:left;
+      justify-content:center;
+      align-items:center;
+      color:#ffffff;
+      cursor:pointer;
+    }
+    .pop-btn.confirm{
+      border-right:1px solid #f8f9fa;
+    }
+    
+</style>
+
+<body>
+
+    <div class="container">
+      <div class="modal-btn-box">
+      </div>
+      
+      <div class="popup-wrap" id="popup">
+        <div class="popup">
+          <div class="popup-head">
+              <span class="head-title">확인</span>
+          </div>
+          <div class="popup-body">
+            <div class="body-content">
+              <div class="body-titlebox">
+                <h3>TMAP 추천경로로 화성 프라코까지 안내합니다.</h1>
+              </div>
+              <div class="body-contentbox">
+                
+              </div>
+            </div>
+          </div>
+          <div class="popup-foot">
+            <span class="pop-btn close" id="open" style="border-bottom: 1px solid">예</span>
+            <span class="pop-btn close" id="close">창 닫기</span>
+          </div>
+        </div>
+    </div>
+    </div>
+
+</body>
+</html>
+
+<script>
+    
+    $(function(){
+        $("#popup").css('display','flex').hide().fadeIn();      
+        $("#close").click(function(){
+          location.href = "kakaotalk://inappbrowser/close";
+        });
+        $("#open").click(function(){
+          redireactApp();
+        });
+        
+    });
+
+
+  const redireactApp = () => {
+    exeDeepLink();
+    checkInstallApp();
+  };
+
+  function checkInstallApp() {
+    function clearTimers() {
+      clearInterval(check);
+      clearTimeout(timer);
+    }
+
+    function isHideWeb() {
+      if (document.webkitHidden || document.hidden) {
+        clearTimers();
+      }
+    }
+    const check = setInterval(isHideWeb, 200);
+
+    const timer = setTimeout(function() {
+      redirectStore();
+    }, 500);
+
+  }
+
+  const redirectStore = () => {
+    const ua = navigator.userAgent.toLowerCase();
+
+    if (window.confirm("스토어로 이동하시겠습니까?")) {
+        window.location.href =
+        ua.indexOf("android") > -1
+          ? "https://play.google.com/store/apps/details?id=com.skt.tmap.ku"
+          : "https://apps.apple.com/kr/app/tmap-%EB%8C%80%EB%A6%AC-%EC%A3%BC%EC%B0%A8-%EC%A0%84%EA%B8%B0%EC%B0%A8%EC%B6%A9%EC%A0%84-%ED%82%A5%EB%B3%B4%EB%93%9C%EB%A5%BC-%ED%8B%B0%EB%A7%B5%EC%97%90%EC%84%9C/id431589174?l=en";
+    }
+  };
+
+  function exeDeepLink() {
+    var url = "tmap://route?goalname=화성프라코&goalx=126.8526862&goaly=37.2094373";
+    window.location.href = url;
+  }
+
+    
+</script>

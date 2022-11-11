@@ -36,6 +36,7 @@ const SearchResult = (props) => {
                 <tbody>
                   { currentPosts.map((e, i)=>{
                     var approvalDateStr = "-";
+                    var empTel = "010-****-" + e.empTel.substring(9)
 
                     if(e.approvalDate){
                       approvalDateStr = e.approvalDate;
@@ -45,7 +46,7 @@ const SearchResult = (props) => {
                     <tr>
                       <td>{e.visitorName}</td>
                       <td>{e.empName}</td>
-                      <td>{e.mngTelStr}</td>
+                      <td>{empTel}</td>
                       <td>{e.visitDateStr + " " + e.startTimeStr + "~" + e.endTimeStr}</td>
                       <td>{e.registerDate.substring(0, 10)}</td>
                       <td>{e.registerState}</td>
@@ -57,7 +58,13 @@ const SearchResult = (props) => {
                 </tbody>
               </table>
               <Paging totalCount={posts.length} page={page} postPerPage={postPerPage} pageRangeDisplayed={5} handlePageChange={handlePageChange}/>
-              <Button as={Link} variant="dark" size="lg" to="/" style={{width: "100%"} }>돌아가기</Button>
+              <Button variant="dark" size="lg" style={{width: "100%"}} onClick={()=>{
+                props.setResultData(null);
+                props.setResultFlag(false);
+                props.setVisitorName(null);
+                props.setTel1(null);
+                props.setTel2(null);
+              }}>돌아가기</Button>
               </div>
           </div>
       </div>

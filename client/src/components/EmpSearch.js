@@ -47,7 +47,7 @@ const EmpSearch = (props) => {
                     </Button>
                 </div>
             </Form.Group>
-            <Table bordered hover className="empSearchTbl">
+            <Table hover className="empSearchTbl">
                 <thead>
                     <tr>
                         <th>부서</th>
@@ -59,15 +59,20 @@ const EmpSearch = (props) => {
                     {returnData.length != 0 ?
 
                     returnData.map((e, i) => {
-                        console.log("e" + e);
-                        console.log("i" + i);
                         var tel = e.tel;
                         var splitedTel = tel.split('-');
                         splitedTel[1] = '****';
                         tel = splitedTel.join('-');
 
                         return(
-                            <tr onClick={()=> {props.setEmpNo(e.id); props.setEmpName(e.name); handleClose()}}>
+                            <tr onClick={()=> {
+                                props.setEmpNo(e.id); 
+                                props.setEmpDept(e.team); 
+                                props.setEmpName(e.name); 
+                                props.setEmpTel(e.tel);
+                                props.setEmpPosition (e.position);
+                                handleClose();
+                                }}>
                                 <td>{e.team}</td>
                                 <td>{e.name}</td>
                                 <td>{tel}</td>

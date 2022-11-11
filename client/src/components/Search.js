@@ -77,7 +77,7 @@ const Search = (props) => {
                     </div> 
                 </div>
                 :
-                <SearchResult resultData={resultData}></SearchResult>
+                <SearchResult resultData={resultData} setResultFlag={setResultFlag} setResultData={setResultData} setVisitorName={setVisitorName} setTel1={setTel1} setTel2={setTel2}></SearchResult>
                 }
             </div>
           </div>

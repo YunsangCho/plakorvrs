@@ -147,19 +147,11 @@ const Editor = ({ placeholder, value, ...rest }) => {
             return param;
         }
           
-        //파라미터 출력
-        console.log(setparam());
-
         //server req
         axios.post("/registerNotice", setparam())
-        .then((res)=>{
-            console.log(res);
-            
+        .then((res)=>{        
             alert("등록되었습니다.");
         })
-        .catch((error)=>{
-            console.log(error);
-        });
 
     }
     
