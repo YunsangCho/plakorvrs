@@ -5,7 +5,9 @@ import axios from 'axios';
 var mongodb = require('mongodb');
 import { Temporal } from '@js-temporal/polyfill';
 require('console-stamp')(console, 'yyyy/mm/dd HH:MM:ss.l');
-var requestIp = require('request-ip');
+const requestIp = require('request-ip');
+const fs = require('fs');
+
 const path = require('path');
 const app = express();
 const bodyParser = require('body-parser');
@@ -42,35 +44,7 @@ Promise.all([
 app.get("/testSelect", (req, res) => {
   console.log("테스트호출");
 
-  var request = new sql.Request();
-  request.stream = true;
 
-  var query = `SELECT [차량번호]
-                     ,[입차일시]
-                     ,[출차일시]
-                     ,[등록구분]
-                     ,[성명]
-                     ,[연락처]
-                     ,[방문_연락처]
-                     ,[방문_사유]
-               FROM [parking_apt_DB].[dbo].[In_Out_Parking]
-               WHERE [입차일시] LIKE '2022-10-25%'
-               ORDER BY 입차일시`;
-  request.query(query, (err, result) => {
-    if(err) console.error(err);
-  });
-
-  var result : any = [];
-  request.on("error", (err) => {
-    console.log(err);
-  })
-  .on("row", (row) => {
-    result.push(row);
-  })
-  .on("done", () => {
-    console.log("result : ", result);
-    res.json({result : result});
-  });
 });
 
 //예약접수
@@ -206,8 +180,10 @@ app.get('/api/alimtalk/resvApproval', async (req: express.Request, res: express.
     var request = new sql.Request();
     request.stream = true;
 
-    var query = `INSERT INTO [PARKING_APT_DB].[DBO].[VISIT_PARKING]([차량번호], [방문_등록일자], [방문_시작일자], [방문_마침일자], [방문_연락처], [방문_사유]) 
-                 VALUES('${resvData?.carNo}', '${resvData?.registerDate}', '${resvData?.visitDateStr}', '${resvData?.visitDateStr}', '${resvData?.visitorTelStr}', '${resvData?.visitPurpose}')
+    var query = `INSERT INTO [PARKING_APT_DB].[DBO].[VISIT_PARKING]
+                ([차량번호], [방문_등록일자], [방문_시작일자], [방문_마침일자], [방문_성함], [방문_소속], [방문_연락처], [방문_사유]) 
+                 VALUES('${resvData?.carNo}', '${resvData?.registerDate}', '${resvData?.visitDateStr}', '${resvData?.visitDateStr}'
+                 , '${resvData?.visitorName}', '${resvData?.visitorTeam}', '${resvData?.visitorTelStr}', '${resvData?.visitPurpose}')
                 `;
     request.query(query, (err, result) => {
       if(err){
@@ -313,6 +289,58 @@ app.post('/registerNotice', async (req: express.Request, res: express.Response) 
 app.get('/api/alimtalk/openTmap', async (req: express.Request, res: express.Response)=>{
   return res.render(path.join(__dirname, './build/resources/html/openTmap.ejs'));
 })
+
+//차량출입일지 출력
+app.post('/getParkingHist', async (req: express.Request, res: express.Response)=>{
+  let visitDate = req.body.visitDate.substring(0,10);
+
+  var request = new sql.Request();
+  request.stream = true;
+
+  var query = 
+  `SELECT A.[차량번호]
+         ,A.[입차일시]
+         ,A.[출차일시]
+         ,A.[등록구분]
+         ,A.[성명]
+         ,A.[연락처]
+         ,C.[방문_소속] AS 방문자소속 -- 커스텀 컬럼
+         ,C.[방문_성함] AS 방문자성함 -- 커스텀 컬럼
+         ,C.[방문_연락처] AS 방문자연락처
+         ,C.[방문_사유] AS 방문사유
+  FROM [parking_apt_DB].[dbo].[In_Out_Parking] A LEFT JOIN [parking_apt_DB].[dbo].[Free_Parking] B
+  ON A.[차량번호] = B.[차량번호]
+    LEFT JOIN [parking_apt_DB].[dbo].[Visit_Parking] C
+    ON A.[차량번호] = C.[차량번호] AND LEFT(A.[입차일시], 10) = LEFT(C.[방문_시작일자], 10)
+  WHERE LEFT(A.[입차일시], 10) = '${visitDate}'
+  ORDER BY A.[입차일시]
+  `;
+  request.query(query, (err, result) => {
+    if(err) console.error(err);
+  });
+
+  var result : any = [];
+  request.on("error", (err) => {
+    console.log(err);
+  })
+  .on("row", (row) => {
+    result.push(row);
+  })
+  .on("done", () => {
+    var createExcel = require('./createExcel');
+
+    createExcel(visitDate, result);
+    setTimeout(()=>{
+      res.set('Content-Type', 'text/xlsx');
+      fs.createReadStream(`./${visitDate} 차량출입일지.xlsx`)
+      .pipe(res)
+      .on('finish', ()=>{
+          console.log('download complete')
+      })
+    }, 1000);
+ });
+
+});
 
 app.get('*', function (req, res) {
     console.log("client IP: " + requestIp.getClientIp(req));
